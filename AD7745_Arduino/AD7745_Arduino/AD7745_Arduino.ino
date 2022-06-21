@@ -169,7 +169,9 @@ void loop()
       //      Serial.println(capacitance - capa2, DEC);
       capacitance2 = capacitance - capa2;
       Serial.print(capacitance0, DEC);
+      Serial.print(F(", "));
       Serial.print(capacitance1, DEC);
+      Serial.print(F(", "));
       Serial.println(capacitance2, DEC);
     }
 
