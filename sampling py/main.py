@@ -27,12 +27,14 @@ def press_callback(key):  # trigger for starting sampling from 2 COM port
         print('(S) Sample stop due to user input')
 
     if flag:
-        print(line_1)
-        str1 = line_1.decode()
-        data1 = str1.replace("\r\n", "").split(', ')
-        with open('C:/Users/transferRNA/Desktop/snake capa/data/test_csv.csv', 'a', newline='') as file:
-            writer = csv.writer(file, delimiter=',')
-            writer.writerow(data1)
+        for i in range(50):
+            time.sleep(0.5)
+            print(line_1)
+            str1 = line_1.decode()
+            data1 = str1.replace("\r\n", "").split(', ')
+            with open('C:/Users/transferRNA/Desktop/snake capa/data/test_csv.csv', 'a', newline='') as file:
+                writer = csv.writer(file, delimiter=',')
+                writer.writerow(data1)
 
         # for i in range(105):
         #     line1 = ser1.readline()
