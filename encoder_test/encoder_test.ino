@@ -20,7 +20,7 @@ void setup() {
    
 void loop() {
   // Send the value of counter
-  if(( counter0 != temp0 )||(counter1 != temp1)){
+//  if(( counter0 != temp0 )||(counter1 != temp1)){
     degree0 = (counter0 /2.0)*0.6;
     degree1 = (counter1 /2.0)*0.6;
     Serial.print(degree0);
@@ -28,7 +28,7 @@ void loop() {
     Serial.println(degree1);
     temp0 = counter0;
     temp1 = counter1;
-  }
+//  }
 }
    
 void ai0() {
