@@ -20,16 +20,13 @@ void setup() {
    
 void loop() {
   // Send the value of counter
-  if( counter0 != temp0 ){
+  if(( counter0 != temp0 )||(counter1 != temp1)){
     degree0 = (counter0 /2.0)*0.6;
-    Serial.print(F("Encoder 1 angle: "));
-    Serial.println (degree0);
+    degree1 = (counter1 /2.0)*0.6;
+    Serial.print(degree0);
+    Serial.print(F(", "));
+    Serial.println(degree1);
     temp0 = counter0;
-  }
-  if (counter1 != temp1){
-    degree1 = (counter1 / 2.0)*0.6;
-    Serial.print(F("Encoder 2 angle: "));
-    Serial.println (degree1);
     temp1 = counter1;
   }
 }
