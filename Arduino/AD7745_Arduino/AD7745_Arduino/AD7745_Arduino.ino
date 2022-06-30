@@ -39,13 +39,6 @@ bool button_state = false;
 
 // interrupt routines
 const byte interruptPin = 2;
-const byte pushButtonPin = 3;
-
-// global  variables for initializing capacitors
-double capa0;
-double capa1;
-double capa2;
-bool init_flag = false;
 
 void setup()
 {
@@ -55,8 +48,6 @@ void setup()
   // interrupt service routine setup
   pinMode(interruptPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(interruptPin), MCU_timer, FALLING);
-  pinMode(pushButtonPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(pushButtonPin), button_timer, FALLING);
 
   Configuration(); //determine configuration properties in AD7745
 
@@ -102,14 +93,6 @@ void setup()
 
 void loop()
 {
-  if (button_state) {
-    delay(100);
-    Serial.print(F("button pressed \n"));
-    button_state = false;
-    init_flag = true;
-    counter = 0;
-
-  }
   if (DATA_READY) {
 
     capacitance = dataRead();
@@ -118,9 +101,6 @@ void loop()
     int current_state = counter % 3;
 
     if (current_state == 0) {
-      if (init_flag) {
-        capa0 += capacitance;
-      }
       //      switch to next state
       digitalWrite(12, HIGH);
       digitalWrite(11, LOW);
@@ -130,9 +110,6 @@ void loop()
 
       //      Serial.print(F("[0]: "));
     } else if (current_state == 1) {
-      if (init_flag) {
-        capa1 += capacitance;
-      }
       digitalWrite(12, HIGH);
       digitalWrite(11, HIGH);
       digitalWrite(10, HIGH);
@@ -141,9 +118,6 @@ void loop()
 
       //      Serial.print(F("[1]: "));
     } else {
-      if (init_flag) {
-        capa2 += capacitance;
-      }
       digitalWrite(12, LOW);
       digitalWrite(11, LOW);
       digitalWrite(10, LOW);
@@ -153,21 +127,15 @@ void loop()
       //      Serial.print(F("[2]: "));
     }
 
-    if (counter == 29) {
-      init_flag = false;
-      capa0 = capa0 / 10.0;
-      capa1 = capa1 / 10.0;
-      capa2 = capa2 / 10.0;
-    }
     if (current_state == 0) {
       //      Serial.println(capacitance - capa0, DEC);
-      capacitance0 = capacitance - capa0;
+      capacitance0 = capacitance;
     } else if (current_state == 1) {
       //      Serial.println(capacitance - capa1, DEC);
-      capacitance1 = capacitance - capa1;
+      capacitance1 = capacitance;
     } else {
       //      Serial.println(capacitance - capa2, DEC);
-      capacitance2 = capacitance - capa2;
+      capacitance2 = capacitance;
       Serial.print(capacitance0, DEC);
       Serial.print(F(", "));
       Serial.print(capacitance1, DEC);
@@ -192,8 +160,4 @@ void loop()
 void MCU_timer() {
   counter ++;
   DATA_READY = true;
-}
-
-void button_timer() {
-  button_state = true;
 }
