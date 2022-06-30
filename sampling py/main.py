@@ -28,7 +28,7 @@ def press_callback(key):  # trigger for starting sampling from 2 COM port
 
     if flag:
         for i in range(50):
-            time.sleep(0.5)
+            time.sleep(0.3)  # sampling rate change here
             print(line_1)
             str1 = line_1.decode()
             data1 = str1.replace("\r\n", "").split(', ')
