@@ -1,6 +1,6 @@
 import serial
 from pynput import keyboard
-from pynput.keyboard import Key, Listener, KeyCode
+from pynput.keyboard import KeyCode
 import csv
 import threading
 import time
@@ -9,10 +9,12 @@ import time
 flag = False  # for keyboard input
 line_1 = 0  # value read from snake
 line_2 = 0  # value read from encoder
+last_received1 = ''
+last_received2 = ''
 
 # initialize the serial communication
 ser1 = serial.Serial("COM5", 9600, timeout=0.3)  # snake COM port
-ser2 = serial.Serial("COM12", 9600, timeout=0.1)  # calibration tool COM port
+ser2 = serial.Serial("COM12", 9600, timeout=0.3)  # calibration tool COM port
 
 
 def press_callback(key):  # trigger for starting sampling from 2 COM port
@@ -29,28 +31,20 @@ def press_callback(key):  # trigger for starting sampling from 2 COM port
     if flag:
         for i in range(50):
             time.sleep(0.3)  # sampling rate change here
-            print(line_1)
-            str1 = line_1.decode()
+            # print(type(line_2))
+            str1 = line_1
+            str2 = line_2
             data1 = str1.replace("\r\n", "").split(', ')
+            encoder1, encoder2 = str2.replace("\r\n", '').split(', ')
+            encoder1 = -float(encoder1)
+            encoder2 = -float(encoder2)
+            data2 = str(encoder1 + encoder2)
+            data1.append(data2)
             with open('C:/Users/transferRNA/Desktop/snake capa/data/test_csv.csv', 'a', newline='') as file:
                 writer = csv.writer(file, delimiter=',')
                 writer.writerow(data1)
-
-        # for i in range(105):
-        #     line1 = ser1.readline()
-        #     line2 = ser2.readline()
-        #     if line1:
-        #         # str2 = line2.decode()
-        #         # data2_temp = str2.replace("\r\n", "").split(', ')
-        #         # data2_temp1 = list(map(float, data2_temp))
-        #         # print(data2_temp1)
-        #         if i > 5:
-        #             str1 = line1.decode()
-        #             data1 = str1.replace("\r\n", "").split(', ')
-        #             with open('C:/Users/transferRNA/Desktop/snake capa/Collected Data/test_csv.csv', 'a',
-        #                       newline='') as file:
-        #                 writer = csv.writer(file, delimiter=',')
-        #                 writer.writerow(data1)
+            temp = i + 1
+            print(f"{temp}/50 Done!")
 
 
 def release_callback(key):  # command for stopping sampling
@@ -63,17 +57,24 @@ def read_calibrate():
     x = threading.Thread(target=thread_function)  # include the reading value thread
     x.start()
     # enable the keyboard listener
-    l = keyboard.Listener(on_press=press_callback, on_release=release_callback)
-    l.start()
-    l.join()
+    kl = keyboard.Listener(on_press=press_callback, on_release=release_callback)
+    kl.start()
+    kl.join()
 
 
 def thread_function():  # value reading thread
-    global line_1, line_2
+    global line_1, line_2, last_received1, last_received2
+    buffer1 = ''
+    buffer2 = ''
     while 1:
-        # time.sleep(0.1)
-        line_1 = ser1.readline()
-        line_2 = ser2.readline()
+        buffer1 += ser1.read(ser1.inWaiting()).decode()
+        buffer2 += ser2.read(ser2.inWaiting()).decode()
+        if '\n' in buffer1:
+            last_received1, buffer1 = buffer1.split('\n')[-2:]
+        if '\n' in buffer2:
+            last_received2, buffer2 = buffer2.split('\n')[-2:]
+        line_1 = last_received1
+        line_2 = last_received2
 
 
 if __name__ == '__main__':
