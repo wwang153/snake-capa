@@ -24,7 +24,7 @@ int CapOffsetL = 0x0E;      //Cap gain Offset adress
 
 int CapChanProp = B10100000;    //capacitive channel properties
 int ExcProp = B00001011;        //excitation properties
-int ConfigProp = B00111001;     //configuration properties
+int ConfigProp = B00100001;     //configuration properties
 int CapDacProp = B00000000;            //Capacitive DAC setup properties
 int CapGainPropH = B01011101;   //cap gain properties high
 int CapGainPropL = B10111101;   //cap gain properties low

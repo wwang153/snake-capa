@@ -29,8 +29,8 @@ def press_callback(key):  # trigger for starting sampling from 2 COM port
         print('(S) Sample stop due to user input')
 
     if flag:
-        for i in range(50):
-            time.sleep(0.3)  # sampling rate change here
+        for i in range(500):
+            time.sleep(0.2)  # sampling rate change here
             # print(type(line_2))
             str1 = line_1
             str2 = line_2
@@ -40,11 +40,11 @@ def press_callback(key):  # trigger for starting sampling from 2 COM port
             encoder2 = -float(encoder2)
             data2 = str(encoder1 + encoder2)
             data1.append(data2)
-            with open('C:/Users/transferRNA/Desktop/snake capa/data/test_csv.csv', 'a', newline='') as file:
+            with open('C:/Users/transferRNA/Desktop/snake capa/data/joint23.csv', 'a', newline='') as file:
                 writer = csv.writer(file, delimiter=',')
                 writer.writerow(data1)
             temp = i + 1
-            print(f"{temp}/50 Done!")
+            print(f"{temp}/500 Done!")
 
 
 def release_callback(key):  # command for stopping sampling
