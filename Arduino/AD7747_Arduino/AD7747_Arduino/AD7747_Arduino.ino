@@ -23,9 +23,9 @@ int CapOffsetH = 0x0D;      //Cap Offset high adress
 int CapOffsetL = 0x0E;      //Cap gain Offset adress
 
 int CapChanProp = B10100000;    //capacitive channel properties
-int ExcProp = B00001011;        //excitation properties
-int ConfigProp = B00100001;     //configuration properties
-int CapDacProp = B00000000;            //Capacitive DAC setup properties
+int ExcProp = B00001110;        //excitation properties
+int ConfigProp = B00010001;     //configuration properties
+int CapDacProp = B10111100;            //Capacitive DAC setup properties
 int CapGainPropH = B01011101;   //cap gain properties high
 int CapGainPropL = B10111101;   //cap gain properties low
 int CapOffsetPropH = B01110111; //cap offset properties high
@@ -48,6 +48,7 @@ void setup()
   // interrupt service routine setup
   pinMode(interruptPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(interruptPin), MCU_timer, FALLING);
+  Serial.println(F("ISR setup done"));
 
   Configuration(); //determine configuration properties in AD7745
 
@@ -83,10 +84,11 @@ void setup()
   digitalWrite(11, LOW); // B
 
   // switch on X0 (DG4051E)
-  digitalWrite(10, LOW); // A
-  digitalWrite(9, LOW); // B
-  digitalWrite(8, LOW); // C
+//  digitalWrite(10, LOW); // A
+//  digitalWrite(9, LOW); // B
+//  digitalWrite(8, LOW); // C
 
+  Serial.println(F("Multiplexier setup done"));
   delay(15); // delay before the loop starts
 
 }
@@ -104,25 +106,25 @@ void loop()
       //      switch to next state
       digitalWrite(12, HIGH);
       digitalWrite(11, LOW);
-      digitalWrite(10, HIGH);
-      digitalWrite(9, LOW);
-      digitalWrite(8, LOW);
+//      digitalWrite(10, HIGH);
+//      digitalWrite(9, LOW);
+//      digitalWrite(8, LOW);
 
       //      Serial.print(F("[0]: "));
     } else if (current_state == 1) {
       digitalWrite(12, HIGH);
       digitalWrite(11, HIGH);
-      digitalWrite(10, HIGH);
-      digitalWrite(9, HIGH);
-      digitalWrite(8, LOW);
+//      digitalWrite(10, HIGH);
+//      digitalWrite(9, HIGH);
+//      digitalWrite(8, LOW);
 
       //      Serial.print(F("[1]: "));
     } else {
       digitalWrite(12, LOW);
       digitalWrite(11, LOW);
-      digitalWrite(10, LOW);
-      digitalWrite(9, LOW);
-      digitalWrite(8, LOW);
+//      digitalWrite(10, LOW);
+//      digitalWrite(9, LOW);
+//      digitalWrite(8, LOW);
 
       //      Serial.print(F("[2]: "));
     }
