@@ -48,7 +48,6 @@ void setup()
   // interrupt service routine setup
   pinMode(interruptPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(interruptPin), MCU_timer, FALLING);
-  Serial.println(F("ISR setup done"));
 
   Configuration(); //determine configuration properties in AD7745
 
@@ -88,7 +87,6 @@ void setup()
 //  digitalWrite(9, LOW); // B
 //  digitalWrite(8, LOW); // C
 
-  Serial.println(F("Multiplexier setup done"));
   delay(15); // delay before the loop starts
 
 }
