@@ -13,7 +13,7 @@ last_received1 = ''
 last_received2 = ''
 
 # initialize the serial communication
-ser1 = serial.Serial("COM5", 9600, timeout=0.3)  # snake COM port
+ser1 = serial.Serial("COM13", 9600, timeout=0.3)  # snake COM port
 ser2 = serial.Serial("COM12", 9600, timeout=0.3)  # calibration tool COM port
 
 
