@@ -40,7 +40,7 @@ def press_callback(key):  # trigger for starting sampling from 2 COM port
             encoder2 = -float(encoder2)
             data2 = str(encoder1 + encoder2)
             data1.append(data2)
-            with open('C:/Users/transferRNA/Desktop/snake capa/data/joint01_01.csv', 'a', newline='') as file:
+            with open('C:/Users/transferRNA/Desktop/snake capa/data/S3_joint01.csv', 'a', newline='') as file:
                 writer = csv.writer(file, delimiter=',')
                 writer.writerow(data1)
             temp = i + 1
