@@ -13,8 +13,8 @@ last_received1 = ''
 last_received2 = ''
 
 # initialize the serial communication
-ser1 = serial.Serial("COM6", 9600, timeout=0.3)  # snake COM port
-ser2 = serial.Serial("COM3", 9600, timeout=0.3)  # calibration tool COM port
+ser1 = serial.Serial("COM11", 9600, timeout=0.3)  # snake COM port
+ser2 = serial.Serial("COM12", 9600, timeout=0.3)  # calibration tool COM port
 
 
 def press_callback(key):  # trigger for starting sampling from 2 COM port
@@ -40,7 +40,7 @@ def press_callback(key):  # trigger for starting sampling from 2 COM port
             encoder2 = -float(encoder2)
             data2 = str(encoder1 + encoder2)
             data1.append(data2)
-            with open('C:/Users/transferRNA/Desktop/snake capa/data/S3_joint23.csv', 'a', newline='') as file:
+            with open('C:/Users/transferRNA/Desktop/snake capa/data/S4_joint01_01.csv', 'a', newline='') as file:
                 writer = csv.writer(file, delimiter=',')
                 writer.writerow(data1)
             temp = i + 1
